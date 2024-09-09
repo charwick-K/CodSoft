@@ -1,0 +1,48 @@
+import cv2
+import face_recognition
+
+def recognize_faces(known_names, known_image_paths):
+    
+    known_images = [face_recognition.load_image_file(path) for path in known_image_paths]
+    known_encodings = [face_recognition.face_encodings(img)[0] for img in known_images]
+
+    
+    video_stream = cv2.VideoCapture(0)
+
+    identified_names = []  
+
+    while True:
+        
+        ret, frame = video_stream.read()
+
+        face_locations = face_recognition.face_locations(frame)
+        face_encodings = face_recognition.face_encodings(frame, face_locations)
+
+        for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
+            
+            matches = face_recognition.compare_faces(known_encodings, face_encoding)
+            name = "Unknown"
+
+            if True in matches:
+                match_index = matches.index(True)
+                name = known_names[match_index]
+
+                if name not in identified_names:
+                    identified_names.append(name)
+
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+            font = cv2.FONT_HERSHEY_DUPLEX
+            cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
+
+        cv2.imshow('Video', frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    video_stream.release()
+    cv2.destroyAllWindows()
+
+known_names = ["name1", "name2"]
+known_image_paths = ["D:/ECS/name1.png", "D:/ECS/name2.jpg"]
+
+recognize_faces(known_names, known_image_paths)

@@ -1,0 +1,29 @@
+import re
+
+def admission_chatbot(user_input):
+    
+    responses = {
+        'eligibility criteria': 'To be eligible for admission, you generally need a high school diploma or equivalent. Some programs may have additional requirements. Please check our website for detailed information.',
+        'application process': 'The application process includes submitting an online application form, academic transcripts, letters of recommendation, and possibly a personal statement. Ensure you check the specific requirements for your chosen program.',
+        'deadlines': 'Admission deadlines vary by program. Please visit our official website (www.university.com) or contact the admissions office for the most up-to-date information on application deadlines.',
+        'scholarships': 'We offer various scholarships for eligible students. To learn more about available scholarships and their criteria, please check the scholarships section on our website or contact the financial aid office.',
+        'contact details': 'You can contact the admissions office at universityname.admissions@gmail.com or call +91XXXXXXXXXX for further assistance.',
+        'bye': 'Thank you for chatting with us. If you have more questions, feel free to ask. Goodbye!'
+    }
+
+    for keyword, reply in responses.items():
+        if re.search(keyword, user_input, re.IGNORECASE):
+            return reply
+
+    return "Sorry, I am unable to understand that. If you have specific questions about admission, feel free to ask."
+
+print("Admission Chatbot: Hello! How can I assist you with your university admission queries?")
+while True:
+    user_input = input("You: ").lower()
+    
+    if user_input == 'bye':
+        print("Admission Chatbot: Thank you for chatting with us. If you have more questions, feel free to ask. Goodbye!")
+        break
+
+    reply = admission_chatbot(user_input)
+    print("Admission Chatbot:", reply)

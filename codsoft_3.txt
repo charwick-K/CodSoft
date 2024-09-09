@@ -1,0 +1,26 @@
+toothpaste_options = [
+    {'Name': 'FreshClean', 'Flavor': 'Peppermint', 'Ingredients': 'Sodium fluoride, Peppermint oil', 'Price': 2.99},
+    {'Name': 'MintyFresh', 'Flavor': 'Spearmint', 'Ingredients': 'Fluoride, Spearmint flavor', 'Price': 3.49},
+    {'Name': 'CavityGuard', 'Flavor': 'Cool Mint', 'Ingredients': 'Cavity-fighting formula', 'Price': 2.79},
+    {'Name': 'WhiteningPlus', 'Flavor': 'Whitening', 'Ingredients': 'Hydrogen peroxide, Baking soda', 'Price': 4.99},
+    {'Name': 'HerbalGlow', 'Flavor': 'Herbal', 'Ingredients': 'Herbal extracts', 'Price': 3.99},
+]
+
+user_preferences = {
+    'Flavor': input("Enter your preferred flavor: "),
+    'Ingredients': input("Enter your preferred ingredients: "),
+    'Price': float(input("Enter your maximum price: ")),
+}
+
+def recommend_toothpaste(user_preferences, toothpaste_options):
+    matches = set()
+    for toothpaste in toothpaste_options:
+        if toothpaste['Flavor'] == user_preferences['Flavor'] and \
+           user_preferences['Ingredients'] in toothpaste['Ingredients'] and \
+           toothpaste['Price'] <= user_preferences['Price']:
+            matches.add(toothpaste['Name'])
+    return matches
+
+recommended_toothpastes = recommend_toothpaste(user_preferences, toothpaste_options)
+
+print("Recommended Toothpastes:", recommended_toothpastes)
